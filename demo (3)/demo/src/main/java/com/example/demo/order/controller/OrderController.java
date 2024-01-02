@@ -88,34 +88,8 @@ public class OrderController {
         br.close();
         conn.disconnect();
 
-        System.out.println(response.toString());
+        return orderService.parsing(response.toString());
 
-        String amount = response.split("amount")[1].split(",")[0].replace("=", "");
-        String name = response.split(" name")[1].split(",")[0].replace("=", "");
-        String custom_data = response.split(" custom_data=")[1].split("]")[0];
-
-        int count = 0;
-        for (int i = 0; i < custom_data.length(); i++) {
-            if(custom_data.charAt(i) == '{') count++;
-        }
-        System.out.println(custom_data);
-        System.out.println("count: " +count);
-
-        Integer totalAmount = 0;
-        for (int i = 1; i <= count; i++) {
-            String id = custom_data.split("id")[i].split(":")[1].split(",")[0];
-            String price = custom_data.split("price")[i].split(":")[1].split("}")[0];
-            System.out.println("id: " + id + " , price: " + price);
-            totalAmount += orderService.validate(Integer.valueOf(id));
-        }
-        System.out.println(totalAmount);
-
-        Map<String, String> result = new HashMap<>();
-        result.put("name", name);
-        result.put("amount", amount);
-        result.put("correctPrice", Integer.toString(totalAmount));
-
-        return result;
     }
 
     //실제로 검증하는 코드
