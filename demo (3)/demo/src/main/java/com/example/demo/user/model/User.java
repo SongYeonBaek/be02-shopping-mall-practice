@@ -1,8 +1,11 @@
 package com.example.demo.user.model;
 
+import com.example.demo.order.model.Orders;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,7 +24,12 @@ public class User {
     private String password;
     @Column(length = 30)
     private String name;
-    @Column(length = 200)
+    @Column(length = 200, unique = true)
     private String image;
+
+    private Boolean isValid;
+
+    @OneToMany(mappedBy = "user")
+    private List<Orders> orderList = new ArrayList<>();
 
 }
