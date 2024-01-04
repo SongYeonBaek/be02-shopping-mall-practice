@@ -1,6 +1,9 @@
 package com.example.demo.product.model;
+import com.example.demo.order.model.OrderedProduct;
 import lombok.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -14,5 +17,8 @@ public class Product {
     Integer id;
     String name;
     Integer price;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderedProduct> orderedProducts = new ArrayList<>();
 
 }
